@@ -1,0 +1,24 @@
+{
+  "name": "PiBuzzer",
+  "version": "0.0.0",
+  "description": "Buzzer for my door",
+  "main": "buzzer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/samuelhough/PiBuzzer.git"
+  },
+  "keywords": [
+    "RaspberryPi"
+  ],
+  "author": "Samuel Hough",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "19a867383f2eb18740d24561d244d0c35ff327f1",
+  "dependencies": {
+    "pi-gpio": "0.0.2",
+    "express": "~3.4.7"
+  }
+}
