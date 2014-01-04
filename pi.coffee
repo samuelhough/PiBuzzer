@@ -55,7 +55,7 @@ manager = new Manager()
 manager.initialize()
 manager.on('json:data', ( data )->
   server_time = new Date( data.current_time )
-  if( data.door_open is true and buzzer.getLastOpened() < data.last_opened )
+  if( data.door_open is true )
     buzzer.open( data.open_for )
 )
 
