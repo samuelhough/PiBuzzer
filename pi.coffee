@@ -28,7 +28,7 @@ getStats = ->
     server_time: server_time.getTime()
   }
 
-routes = require('./routes')( app, getStats )
+routes = require('./routes')( app, getStats, express )
 
 manager.on('json:data', ( data )->
   led.blink()

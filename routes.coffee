@@ -1,4 +1,4 @@
-module.exports = ( app, getStats )->
+module.exports = ( app, getStats, express )->
   app.configure(->
     app.use( ( req, res, next )->
       console.log('%s %s', req.method, req.url);
@@ -6,7 +6,7 @@ module.exports = ( app, getStats )->
     )
     app.use( express.static( __dirname + '/public' ) );
   );
-  
+
   app.get( '/stats', ( req, res )->
     current_time = new Date()
     res.json( getStats() );
