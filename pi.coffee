@@ -3,7 +3,7 @@ Manager = require('./manager')
 express = require('express');
 buzzer = new Buzzer()
 app = express();
-port = 80
+port = 81
 
 app.configure(->
   app.use( ( req, res, next )->
@@ -20,9 +20,10 @@ server_time = new Date()
 current_time = new Date()
 
 getStats = ->
+  cTime = new Date()
   {
     start_time: start_time
-    alive_for: ( ( start_time.getTime() ) / 1000 / 60 / 60 ) + " hours"
+    alive_for: ( ( cTime.getTime() - start_time.getTime() ) / 1000 / 60 / 60 ) + " hours"
     buzz_count: buzzer.getBuzzCount()
     last_opened: lastOpened
     last_opened_by: lastOpenedBy
