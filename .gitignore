@@ -1,2 +1,4 @@
 .DS_Store
 config.json
+config.coffee
+/node_modules

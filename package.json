@@ -18,8 +18,9 @@
   "readmeFilename": "README.md",
   "gitHead": "19a867383f2eb18740d24561d244d0c35ff327f1",
   "dependencies": {
-    "pi-gpio": "0.0.2",
     "express": "~3.4.7",
-    "cylon": "~0.8.0"
+    "underscore": "~1.5.2",
+    "gpio": "~0.2.5",
+    "request": "~2.30.0"
   }
 }
