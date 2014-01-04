@@ -55,7 +55,7 @@ module.exports = class Buzzer extends Events
     if !@pi
       @notInitialized()
       return 
-    else
+    else if @isOpen
       console.log('Closing')
       @isOpen = false
       @pi.servo.angle( @buzzerOffAngle )
