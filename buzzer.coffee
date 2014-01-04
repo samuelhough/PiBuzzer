@@ -18,7 +18,7 @@ module.exports = class Buzzer extends Events
       connection:
         name: 'raspi', adaptor: 'raspi'
       device:
-        name: 'servo', driver: 'servo', pin: 3,
+        name: 'servo', driver: 'servo', pin: 7,
       work: ( pi ) =>
         @pi = pi
         @close()
@@ -33,10 +33,9 @@ module.exports = class Buzzer extends Events
       if @lastOpened isnt data.last_open
         @lastOpened = data.last_open
       else 
-        console.log('Already opened')
+        console.log('Already opened for this request')
         return
 
-    console.log('Trying to open')
     time = Number(length)
     if isNaN(time)
       time = @defaultTime
