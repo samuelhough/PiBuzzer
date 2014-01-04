@@ -1,5 +1,4 @@
 gpio = require('gpio')
-_ = require('underscore')
 Events = require('events').EventEmitter
 
 module.exports = class Buzzer extends Events
@@ -24,7 +23,8 @@ module.exports = class Buzzer extends Events
       # Due to the asynchronous nature of exporting a header, you may not be able to
       # read or write to the header right away. Place your logic in this ready
       # function to guarantee everything will get fired properly
-      ready: _.bind( @, @onPinReady )
+      ready: =>
+        @onPinReady
     )
 
   onPinReady: ->
