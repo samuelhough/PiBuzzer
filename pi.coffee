@@ -48,6 +48,7 @@ manager.on('json:data', ( data )->
     buzzer.open( data.open_for )
 )
 
-
+ip = require('./ip')
+console.log(ip.ip);
 console.log('Server listening on port '+ port )
 app.listen( port );
