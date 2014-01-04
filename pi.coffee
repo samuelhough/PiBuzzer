@@ -1,8 +1,9 @@
-# Buzzer = require('buzzer')
+Buzzer = require('buzzer')
 Manager = require('./manager')
 express = require('express');
+buzzer = new Buzzer()
 app = express();
-port = 3000
+port = 80
 
 app.configure(->
   app.use( ( req, res, next )->
