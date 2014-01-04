@@ -24,10 +24,17 @@ module.exports = class Buzzer extends Events
         @close()
     ).start()
 
-  open: ( length )->
+  open: ( length, data )->
     if !@pi
       @notInitialized()
       return 
+
+    if data
+      if @lastOpened !== data.lastOpened
+        @lastOpened = data.lastOpened
+      else 
+        console.log('Already opened')
+        return
 
     console.log('Trying to open')
     time = Number(length)

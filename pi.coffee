@@ -56,7 +56,7 @@ manager.initialize()
 manager.on('json:data', ( data )->
   server_time = new Date( data.current_time )
   if( data.door_open is true )
-    buzzer.open( data.open_for )
+    buzzer.open( data.open_for, data )
 )
 
 ip = require('./ip')
