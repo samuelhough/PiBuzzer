@@ -9,6 +9,8 @@ module.exports = class Buzzer extends Events
   isOpen: false
   defaultTime: 5
   maxTime: 15000
+  buzzerOnAngle: 90
+  buzzerOffAngle: 45
   constructor: ( pin )->
     @pinNum = pin
     @servo = null
@@ -17,12 +19,13 @@ module.exports = class Buzzer extends Events
         name: 'raspi', adaptor: 'raspi'
       device:
         name: 'servo', driver: 'servo', pin: 3,
-      work: ( servo ) =>
-        @servo = servo
+      work: ( pi ) =>
+        @pi = pi
+        @close()
     ).start()
 
   open: ( length )->
-    if !@servo
+    if !@pi
       @notInitialized()
       return 
 
@@ -43,19 +46,21 @@ module.exports = class Buzzer extends Events
       @isOpen = true
       @lastOpened = new Date()
       @buzzes++
-      @set( 1 )
+      @pi.servo.angle( @buzzerOnAngle )
       setTimeout( =>
         @close()
       , time )
 
   close: ->
-    if !@servo
+    if !@pi
       @notInitialized()
       return 
-    console.log('Closing')
-    @set( 0, =>
+    else
+      console.log('Closing')
       @isOpen = false
-    )
+      @pi.servo.angle( @buzzerOffAngle )
+
+    
 
   notInitialized: ->
     console.log('Servo not initialized')
