@@ -38,11 +38,15 @@ app.get( '/stats', ( req, res )->
 )
 
 app.get( '/open', ( req, res )->
-  buzzer.open( getStats() )
+  buzzer.open(  )
+  res.json( getStats() )
+  res.end()
 )
 
 app.get( '/close', ( req, res )->
-  buzzer.open( getStats() )
+  buzzer.close( )
+  res.json(getStats())
+  res.end()
 )
 
 lastOpened = new Date()
