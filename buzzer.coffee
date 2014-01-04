@@ -9,8 +9,8 @@ module.exports = class Buzzer extends Events
   isOpen: false
   defaultTime: 5
   maxTime: 15000
-  buzzerOnAngle: 90
-  buzzerOffAngle: 45
+  buzzerOnAngle: 75
+  buzzerOffAngle: 40
   constructor: ( pin )->
     @pinNum = pin
     @servo = null
@@ -18,7 +18,7 @@ module.exports = class Buzzer extends Events
       connection:
         name: 'raspi', adaptor: 'raspi'
       device:
-        name: 'servo', driver: 'servo', pin: 7,
+        name: 'servo', driver: 'servo', pin: 12,
       work: ( pi ) =>
         @pi = pi
         @close()
