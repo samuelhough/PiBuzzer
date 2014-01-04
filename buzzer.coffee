@@ -12,13 +12,14 @@ module.exports = class Buzzer extends Events
   constructor: ( pin )->
     @pinNum = pin
     @servo = null
-    Cylon.robot
+    Cylon.robot(
       connection:
         name: 'raspi', adaptor: 'raspi'
       device:
         name: 'servo', driver: 'servo', pin: 3,
       work: ( servo ) =>
         @servo = servo
+    ).start()
 
   open: ( length )->
     if !@servo
