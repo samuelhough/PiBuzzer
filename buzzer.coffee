@@ -30,8 +30,8 @@ module.exports = class Buzzer extends Events
       return 
 
     if data
-      if @lastOpened !== data.lastOpened
-        @lastOpened = data.lastOpened
+      if @lastOpened !== data.last_open
+        @lastOpened = data.last_open
       else 
         console.log('Already opened')
         return
@@ -51,7 +51,6 @@ module.exports = class Buzzer extends Events
     if !@isOpen
       console.log('Opening for '+time)
       @isOpen = true
-      @lastOpened = new Date()
       @buzzes++
       @pi.servo.angle( @buzzerOnAngle )
       setTimeout( =>
