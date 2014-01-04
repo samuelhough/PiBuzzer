@@ -30,7 +30,7 @@ module.exports = class Buzzer extends Events
       return 
 
     if data
-      if @lastOpened !== data.last_open
+      if @lastOpened isnt data.last_open
         @lastOpened = data.last_open
       else 
         console.log('Already opened')
