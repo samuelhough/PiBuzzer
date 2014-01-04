@@ -16,7 +16,7 @@ module.exports = class Buzzer extends Events
       connection:
         name: 'raspi', adaptor: 'raspi'
       device:
-        device: name: 'servo', driver: 'servo', pin: 3,
+        name: 'servo', driver: 'servo', pin: 3,
       work: ( servo ) =>
         @servo = servo
 
