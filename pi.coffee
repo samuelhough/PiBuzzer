@@ -1,23 +1,20 @@
-Buzzer = require('./buzzer')
+Buzzer  = require('./buzzer')
+Led     = require('./led')
 Manager = require('./manager')
-express = require('express');
+express = require('express')
+ip      = require('./ip')
+
+manager = new Manager()
 buzzer = new Buzzer()
-app = express();
-port = 81
-
-app.configure(->
-  app.use( ( req, res, next )->
-    console.log('%s %s', req.method, req.url);
-    next();
-  )
-  app.use( express.static( __dirname + '/public' ) );
-);
-
-
-buzz_count = 0
-start_time = new Date()
-server_time = new Date()
+led    = new Led()
+app    = express()
+port   = 81
+start_time   = new Date()
+server_time  = new Date()
 current_time = new Date()
+lastOpened   = new Date()
+lastOpenedBy = ""
+buzz_count   = 0
 
 getStats = ->
   cTime = new Date()
@@ -31,35 +28,15 @@ getStats = ->
     server_time: server_time.getTime()
   }
 
-app.get( '/stats', ( req, res )->
-  current_time = new Date()
-  res.json( getStats() );
-  res.end()
-)
+routes = require('./routes')( app, getStats )
 
-app.get( '/open', ( req, res )->
-  buzzer.open(  )
-  res.json( getStats() )
-  res.end()
-)
-
-app.get( '/close', ( req, res )->
-  buzzer.close( )
-  res.json(getStats())
-  res.end()
-)
-
-lastOpened = new Date()
-lastOpenedBy = ""
-manager = new Manager()
-manager.initialize()
 manager.on('json:data', ( data )->
+  led.blink()
   server_time = new Date( data.current_time )
   if( data.door_open is true )
     buzzer.open( data.open_for, data )
 )
 
-ip = require('./ip')
-console.log(ip.ip);
-console.log('Server listening on port '+ port )
-app.listen( port );
+console.log(ip.ip+ ' listening on port: '+ port )
+manager.initialize()
+app.listen( port )

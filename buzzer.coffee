@@ -1,4 +1,3 @@
-gpio = require('gpio')
 Events = require('events').EventEmitter
 Cylon = require('cylon')
 
@@ -7,7 +6,7 @@ module.exports = class Buzzer extends Events
   buzzes: 0
   lastOpened: new Date()
   isOpen: false
-  defaultTime: 5
+  defaultTime: 3
   maxTime: 15000
   buzzerOnAngle: 75
   buzzerOffAngle: 40
