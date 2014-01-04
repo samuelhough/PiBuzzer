@@ -1,5 +1,6 @@
 gpio = require('gpio')
 Events = require('events').EventEmitter
+Cylon = require('cylon')
 
 module.exports = class Buzzer extends Events
   interval: 200
@@ -10,34 +11,20 @@ module.exports = class Buzzer extends Events
   maxTime: 15000
   constructor: ( pin )->
     @pinNum = pin
-    @gpio = gpio.export( @pinNum,
-      
-      # When you export a pin, the default direction is out. This allows you to set
-      # the pin value to either LOW or HIGH (3.3V) from your program.
-      direction: "out"
-      
-      # set the time interval (ms) between each read when watching for value changes
-      # note: this is default to 100, setting value too low will cause high CPU usage
-      interval: @interval
-      
-      # Due to the asynchronous nature of exporting a header, you may not be able to
-      # read or write to the header right away. Place your logic in this ready
-      # function to guarantee everything will get fired properly
-      ready: =>
-        @onPinReady
-    )
-
-  onPinReady: ->
-    @emit('pin:ready', @gpio.value )
-
-  get: ->
-    @gpio.value
-
-  set: ( value, cb )->
-    cb = cb or ->
-    @gpio.set( value, cb )
+    @servo = null
+    Cylon.robot
+      connection:
+        name: 'raspi', adaptor: 'raspi'
+      device:
+        device: name: 'servo', driver: 'servo', pin: 3,
+      work: ( servo ) =>
+        @servo = servo
 
   open: ( length )->
+    if !@servo
+      @notInitialized()
+      return 
+
     console.log('Trying to open')
     time = Number(length)
     if isNaN(time)
@@ -61,10 +48,16 @@ module.exports = class Buzzer extends Events
       , time )
 
   close: ->
+    if !@servo
+      @notInitialized()
+      return 
     console.log('Closing')
     @set( 0, =>
       @isOpen = false
     )
+
+  notInitialized: ->
+    console.log('Servo not initialized')
 
   getLastOpened: ->
     @lastOpened.getTime()
