@@ -2,7 +2,7 @@ gpio = require('gpio')
 _ = require('underscore')
 Events = require('events').EventEmitter
 
-class Buzzer extends Events
+module.exports = class Buzzer extends Events
   interval: 200
   buzzes: 0
   lastOpened: new Date()
