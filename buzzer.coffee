@@ -1,6 +1,6 @@
 gpio = require('gpio')
 Events = require('events').EventEmitter
-Cylon = require('cylon')
+Cylon = require('cylon-raspi')
 
 module.exports = class Buzzer extends Events
   interval: 200
