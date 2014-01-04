@@ -19,10 +19,8 @@ start_time = new Date()
 server_time = new Date()
 current_time = new Date()
 
-
-app.get( '/stats', ( req, res )->
-  current_time = new Date()
-  res.json( {
+getStats = ->
+  {
     start_time: start_time
     alive_for: ( ( start_time.getTime() ) / 1000 / 60 / 60 ) + " hours"
     buzz_count: buzzer.getBuzzCount()
@@ -30,14 +28,21 @@ app.get( '/stats', ( req, res )->
     last_opened_by: lastOpenedBy
     current_time: current_time.getTime()
     server_time: server_time.getTime()
-  } );
+  }
+
+app.get( '/stats', ( req, res )->
+  current_time = new Date()
+  res.json( getStats() );
   res.end()
 )
 
 app.get( '/open', ( req, res )->
-  buzzer.open()
+  buzzer.open( getStats() )
 )
 
+app.get( '/close', ( req, res )->
+  buzzer.open( getStats() )
+)
 
 lastOpened = new Date()
 lastOpenedBy = ""
