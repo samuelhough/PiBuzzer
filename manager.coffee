@@ -1,33 +1,42 @@
 _ = require('underscore')
 Events = require('events').EventEmitter
-request = require('request');
+Socket = require('socket.io-client')
 config = require('./config')
+
 
 module.exports = class Manager extends Events
   url: config.url
-  interval: 2000
+  reconnects: 0
   constructor: ->
-
-  initialize: ->
-    @delayedFetch()
-
-  delayedFetch: ->
-    setTimeout( =>
-      @fetchData()
-    , @interval )
-
-  fetchData: ( cb )->
-    console.log('Fetching data');
-    request( @url,  ( error, response, body )=>
-      if (!error && response.statusCode == 200)
-        try 
-          data = JSON.parse(body)
-          console.log( data )
-          @emit( 'json:data', data )
-        catch e 
-          console.log( e )
-        finally
-          @delayedFetch()
-      else
-        console.log( @url + " is not valid url" )
+    @socket = Socket()
+    @socket.on('connect', =>
+      @onConnectionSetup()
+    );
+    @socket.on('disconnect', =>
+      @clearHeartbeat()
     )
+    @socket.on('reconnect', =>
+      @reconnects++
+      @setupHeartbeat()
+    )
+    @socket.connect( @url );
+
+  onConnectionSetup: ->
+    @socket.on('data:buzzer', =>
+      @onDataReceived.apply( @, arguments )
+    )
+    @setupHeartbeat()
+
+  clearHeartbeat: ->
+    if @heartbeat
+      clearInterval( @heartbeat )
+
+  setupHeartbeat: ->
+    @clearHeartbeat()
+    @heartbeat = setInterval( =>
+      @socket.emit( 'heartbeat', 1 )
+    )
+
+  onDataReceived: ( data )->
+    @emit( 'json:data', data )
+    

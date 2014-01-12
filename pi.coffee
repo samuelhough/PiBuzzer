@@ -26,6 +26,7 @@ getStats = ->
     last_opened_by: lastOpenedBy
     current_time: current_time.getTime()
     server_time: server_time.getTime()
+    reconnects: manager.reconnects
   }
 
 routes = require('./routes')( app, getStats, express )
@@ -38,5 +39,4 @@ manager.on('json:data', ( data )->
 )
 
 console.log(ip.ip+ ' listening on port: '+ port )
-manager.initialize()
 app.listen( port )
